@@ -15,18 +15,16 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String SAMPLE_JSON_RESPONSE ="https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=2.5";
+    private static final String SAMPLE_JSON_RESPONSE ="https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=2.5&limit=150";
     private EarthquakeAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //ArrayList<EarthquakeData> earthquakes = QueryUtils.extractEarthquakes();
 
         ListView listView = (ListView) findViewById(R.id.earthquakeList);
         mAdapter = new EarthquakeAdapter(this, new ArrayList<EarthquakeData>());
 
-        //EarthquakeAdapter earthquakeArray = new EarthquakeAdapter(this, earthquakes);
         listView.setAdapter(mAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
