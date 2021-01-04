@@ -22,7 +22,7 @@ import java.util.Calendar;
 
 public class QueryUtils {
 
-    public static ArrayList<EarthquakeData> fetchEarthquakeData(String[] requestUrl) {
+    public static ArrayList<EarthquakeData> fetchEarthquakeData(String requestUrl) {
         URL url = createURL(requestUrl);
 
         String jsonResponse = null;
@@ -36,10 +36,10 @@ public class QueryUtils {
         return earthquakeData;
     }
 
-    private static URL createURL(String[] urls){
+    private static URL createURL(String urls){
         URL url = null;
         try {
-            url = new URL(urls[0]);
+            url = new URL(urls);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

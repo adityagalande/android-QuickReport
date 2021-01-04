@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             if(urls.length < 1 ){
                 return null;
             }
-            ArrayList<EarthquakeData> result = QueryUtils.fetchEarthquakeData(urls);
+            ArrayList<EarthquakeData> result = QueryUtils.fetchEarthquakeData(urls[0]);
             return result;
         }
 
