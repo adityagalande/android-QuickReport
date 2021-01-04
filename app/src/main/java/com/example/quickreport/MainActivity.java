@@ -2,21 +2,24 @@ package com.example.quickreport;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<EarthquakeData>> {
 
     private static final String SAMPLE_JSON_RESPONSE = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=2.5&limit=150";
     private EarthquakeAdapter mAdapter;
+    private static final  int EARTHQUAKE_LOADER_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,27 @@ public class MainActivity extends AppCompatActivity {
 
         EarthquakeAsyncTask task = new EarthquakeAsyncTask();
         task.execute(SAMPLE_JSON_RESPONSE);
+
+        LoaderManager loaderManager = getLoaderManager();
+        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+    }
+
+    @Override
+    public Loader<List<EarthquakeData>> onCreateLoader(int id, Bundle args) {
+        return new EarthquakeLoader(this, SAMPLE_JSON_RESPONSE);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<EarthquakeData>> loader, List<EarthquakeData> earthquakeData) {
+        mAdapter.clear();
+        if (earthquakeData != null && !earthquakeData.isEmpty()){
+            mAdapter.addAll(earthquakeData);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<EarthquakeData>> loader) {
+        mAdapter.clear();
     }
 
     private class EarthquakeAsyncTask extends AsyncTask<String, Void, ArrayList<EarthquakeData>> {
@@ -48,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected ArrayList<EarthquakeData> doInBackground(String... urls) {
 
-            if (urls.length < 1) {
+            if (urls.length < 1 || urls[0] == null) {
                 return null;
             }
-            ArrayList<EarthquakeData> result = QueryUtils.fetchEarthquakeData(urls);
+            ArrayList<EarthquakeData> result = QueryUtils.fetchEarthquakeData(urls[0]);
             return result;
         }
 
