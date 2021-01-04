@@ -27,7 +27,11 @@ public class EarthquakeData {
         return this.date;
     }
 
-    public String getTime() {return  this.time;}
+    public String getTime() {
+        return this.time;
+    }
 
-    public String getUrl(){return  this.url;}
+    public String getUrl() {
+        return this.url;
+    }
 }
