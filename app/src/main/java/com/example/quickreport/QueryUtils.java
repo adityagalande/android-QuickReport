@@ -36,7 +36,7 @@ public class QueryUtils {
         return earthquakeData;
     }
 
-    private static URL createURL(String urls){
+    private static URL createURL(String urls) {
         URL url = null;
         try {
             url = new URL(urls);
@@ -48,7 +48,7 @@ public class QueryUtils {
 
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = null;
-        if(url == null){
+        if (url == null) {
             return jsonResponse;
         }
 
@@ -62,31 +62,32 @@ public class QueryUtils {
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.connect();
 
-            if(httpURLConnection.getResponseCode()==200){
+            if (httpURLConnection.getResponseCode() == 200) {
                 inputStream = httpURLConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
-            }else {
-                Log.e("Error TAG.","NOPE!!");
+            } else {
+                Log.e("Error TAG.", "NOPE!!");
             }
-        }catch (IOException ioe){
+        } catch (IOException ioe) {
             ioe.printStackTrace();
-        }finally {
-            if(httpURLConnection != null){
+        } finally {
+            if (httpURLConnection != null) {
                 httpURLConnection.disconnect();
-            }if(inputStream != null){
+            }
+            if (inputStream != null) {
                 inputStream.close();
             }
         }
         return jsonResponse;
     }
 
-    private static String readFromStream(InputStream inputStream) throws IOException{
+    private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder stringBuilderOutput = new StringBuilder();
-        if(inputStream != null){
+        if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader br = new BufferedReader(inputStreamReader);
             String line = br.readLine();
-            while (line != null){
+            while (line != null) {
                 stringBuilderOutput.append(line);
                 line = br.readLine();
             }
@@ -94,13 +95,13 @@ public class QueryUtils {
         return stringBuilderOutput.toString();
     }
 
-    private static ArrayList<EarthquakeData> extractFromJson(String earthquakeJson){
-        if(TextUtils.isEmpty(earthquakeJson)){
+    private static ArrayList<EarthquakeData> extractFromJson(String earthquakeJson) {
+        if (TextUtils.isEmpty(earthquakeJson)) {
             return null;
         }
 
         ArrayList<EarthquakeData> earthquakeData = new ArrayList<>();
-        try{
+        try {
             JSONObject baseJsonObject = new JSONObject(earthquakeJson);
             JSONArray earthquakeArray = baseJsonObject.getJSONArray("features");
 
