@@ -5,7 +5,7 @@ import android.content.Context;
 
 import java.util.List;
 
-public class EarthquakeLoader extends AsyncTaskLoader<List<EarthquakeData>>{
+public class EarthquakeLoader extends AsyncTaskLoader<List<EarthquakeData>> {
 
     private String mUrl;
 
@@ -21,7 +21,7 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<EarthquakeData>>{
 
     @Override
     public List<EarthquakeData> loadInBackground() {
-        if(mUrl == null){
+        if (mUrl == null) {
             return null;
         }
         List<EarthquakeData> earthquakes = QueryUtils.fetchEarthquakeData(mUrl);
